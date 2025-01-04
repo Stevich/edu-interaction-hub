@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Play, UserCheck, Users } from "lucide-react";
 import { useState } from "react";
 import { RegisterDialog } from "@/components/auth/RegisterDialog";
+import { AboutContent } from "./AboutContent";
 
 export const Hero = () => {
   const [showRegister, setShowRegister] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   return (
     <div className="min-h-screen pt-20 bg-gradient-to-br from-blue-50 via-white to-blue-50">
@@ -32,6 +34,7 @@ export const Hero = () => {
               variant="outline" 
               size="lg"
               className="border-blue-200 text-blue-600 hover:bg-blue-50"
+              onClick={() => setShowAbout(true)}
             >
               En savoir plus
             </Button>
@@ -63,6 +66,7 @@ export const Hero = () => {
         </div>
       </div>
       <RegisterDialog open={showRegister} onOpenChange={setShowRegister} />
+      {showAbout && <AboutContent onClose={() => setShowAbout(false)} />}
     </div>
   );
 };
