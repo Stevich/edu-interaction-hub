@@ -19,12 +19,6 @@ export const Navigation = () => {
               ClassConnect
             </Link>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link
-                to="/"
-                className="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium"
-              >
-                Accueil
-              </Link>
               {isAdmin && (
                 <Link
                   to="/admin/dashboard"
@@ -42,6 +36,17 @@ export const Navigation = () => {
               </Button>
             ) : (
               <>
+                <Button 
+                  variant="outline"
+                  onClick={() => setLoginOpen(true)}
+                >
+                  Se connecter
+                </Button>
+                <Button 
+                  onClick={() => setRegisterOpen(true)}
+                >
+                  S'inscrire
+                </Button>
                 <LoginDialog 
                   open={loginOpen} 
                   onOpenChange={setLoginOpen}
