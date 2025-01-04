@@ -4,6 +4,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { LoginDialog } from "@/components/auth/LoginDialog";
 import { RegisterDialog } from "@/components/auth/RegisterDialog";
+import { BookOpen } from "lucide-react";
 
 export const Navigation = () => {
   const { user, isAdmin, signOut } = useAuth();
@@ -15,8 +16,9 @@ export const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="text-xl font-bold text-gray-900">
-              ClassConnect
+            <Link to="/" className="flex items-center space-x-2 text-xl font-bold text-gray-900">
+              <BookOpen className="h-6 w-6 text-blue-600" />
+              <span>ClassConnect</span>
             </Link>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               {isAdmin && (
