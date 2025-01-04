@@ -32,7 +32,7 @@ export const Navigation = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            {!user && (
+            {!user ? (
               <>
                 <Button 
                   variant="outline"
@@ -56,8 +56,7 @@ export const Navigation = () => {
                   onOpenChange={setRegisterOpen}
                 />
               </>
-            )}
-            {user && (
+            ) : (
               <Button onClick={signOut} variant="outline">
                 Déconnexion
               </Button>
