@@ -1,24 +1,38 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn, UserPlus } from "lucide-react";
+import { LoginDialog } from "./auth/LoginDialog";
+import { RegisterDialog } from "./auth/RegisterDialog";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
+  const [showRegisterDialog, setShowRegisterDialog] = useState(false);
 
   return (
-    <nav className="bg-gradient-to-r from-[#8B5CF6] to-[#9333EA] text-white py-4">
+    <nav className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <h1 className="text-2xl font-bold">ClassConnect</h1>
+          <h1 className="text-2xl font-bold font-inter">ClassConnect</h1>
         </div>
         
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          <a href="#" className="hover:text-[#E5DEFF] transition-colors">Cours</a>
-          <a href="#" className="hover:text-[#E5DEFF] transition-colors">Abonnements</a>
-          <a href="#" className="hover:text-[#E5DEFF] transition-colors">Forum</a>
-          <Button variant="secondary" className="bg-white text-[#8B5CF6] hover:bg-white/90">
+        <div className="hidden md:flex items-center space-x-4">
+          <Button 
+            variant="ghost" 
+            className="text-white hover:bg-blue-700"
+            onClick={() => setShowLoginDialog(true)}
+          >
+            <LogIn className="mr-2 h-4 w-4" />
             Se connecter
+          </Button>
+          <Button 
+            variant="secondary" 
+            className="bg-white text-blue-600 hover:bg-white/90"
+            onClick={() => setShowRegisterDialog(true)}
+          >
+            <UserPlus className="mr-2 h-4 w-4" />
+            S'inscrire
           </Button>
         </div>
 
@@ -33,17 +47,36 @@ export const Navigation = () => {
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <div className="md:hidden absolute top-16 left-0 right-0 bg-[#8B5CF6] p-4 shadow-lg">
+        <div className="md:hidden absolute top-16 left-0 right-0 bg-blue-600 p-4 shadow-lg">
           <div className="flex flex-col space-y-4">
-            <a href="#" className="hover:text-[#E5DEFF] transition-colors">Cours</a>
-            <a href="#" className="hover:text-[#E5DEFF] transition-colors">Abonnements</a>
-            <a href="#" className="hover:text-[#E5DEFF] transition-colors">Forum</a>
-            <Button variant="secondary" className="w-full bg-white text-[#8B5CF6] hover:bg-white/90">
+            <Button 
+              variant="ghost" 
+              className="text-white hover:bg-blue-700 w-full justify-start"
+              onClick={() => {
+                setShowLoginDialog(true);
+                setIsOpen(false);
+              }}
+            >
+              <LogIn className="mr-2 h-4 w-4" />
               Se connecter
+            </Button>
+            <Button 
+              variant="secondary" 
+              className="w-full bg-white text-blue-600 hover:bg-white/90 justify-start"
+              onClick={() => {
+                setShowRegisterDialog(true);
+                setIsOpen(false);
+              }}
+            >
+              <UserPlus className="mr-2 h-4 w-4" />
+              S'inscrire
             </Button>
           </div>
         </div>
       )}
+
+      <LoginDialog open={showLoginDialog} onOpenChange={setShowLoginDialog} />
+      <RegisterDialog open={showRegisterDialog} onOpenChange={setShowRegisterDialog} />
     </nav>
   );
 };
