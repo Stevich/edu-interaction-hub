@@ -31,7 +31,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      checkAdminStatus(session?.user?.id);
+      if (session?.user) {
+        checkAdminStatus(session.user.id);
+      }
       setIsLoading(false);
     });
 
@@ -40,19 +42,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
-      await checkAdminStatus(session?.user?.id);
+      if (session?.user) {
+        await checkAdminStatus(session.user.id);
+      } else {
+        setIsAdmin(false);
+      }
       setIsLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  const checkAdminStatus = async (userId: string | undefined) => {
-    if (!userId) {
-      setIsAdmin(false);
-      return;
-    }
-
+  const checkAdminStatus = async (userId: string) => {
     try {
       const { data, error } = await supabase
         .from('users')
@@ -67,6 +68,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       setIsAdmin(data?.role === 'admin');
+      console.log('Admin status:', data?.role === 'admin'); // Debug log
     } catch (error) {
       console.error('Error checking admin status:', error);
       setIsAdmin(false);
@@ -75,6 +77,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    setIsAdmin(false);
   };
 
   return (
