@@ -51,9 +51,9 @@ export const AboutContent = ({ onClose }: AboutContentProps) => {
                 </p>
               </div>
               <img 
-                src="/placeholder.svg" 
+                src="https://images.unsplash.com/photo-1519389950473-47ba0276781c"
                 alt="Plateforme d'apprentissage"
-                className="rounded-lg shadow-lg"
+                className="rounded-lg shadow-lg w-full h-[300px] object-cover"
               />
             </div>
           </motion.section>
@@ -64,9 +64,9 @@ export const AboutContent = ({ onClose }: AboutContentProps) => {
             <div className="space-y-8">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
                   alt="Gestion des cours"
-                  className="rounded-lg shadow-lg"
+                  className="rounded-lg shadow-lg w-full h-[300px] object-cover"
                 />
                 <div>
                   <h3 className="text-2xl font-semibold text-gray-900 mb-4">1. Gestion des Cours</h3>
@@ -88,22 +88,22 @@ export const AboutContent = ({ onClose }: AboutContentProps) => {
                   </ul>
                 </div>
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81"
                   alt="Salle de classe virtuelle"
-                  className="rounded-lg shadow-lg"
+                  className="rounded-lg shadow-lg w-full h-[300px] object-cover"
                 />
               </div>
 
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
                   alt="Personnalisation de l'expérience"
-                  className="rounded-lg shadow-lg"
+                  className="rounded-lg shadow-lg w-full h-[300px] object-cover"
                 />
                 <div>
                   <h3 className="text-2xl font-semibold text-gray-900 mb-4">3. Personnalisation de l'Expérience</h3>
                   <ul className="space-y-3 text-gray-600">
-                    <li>• Niveaux d’études Disponibles : Collège, Lycée, Université, et Professionnel.</li>
+                    <li>• Niveaux d'études Disponibles : Collège, Lycée, Université, et Professionnel.</li>
                     <li>• Collège : 6ème, 5ème, 4ème, 3ème.</li>
                     <li>• Lycée : 2nde, 1ère, Terminale.</li>
                     <li>• Université : Niveau I, Niveau II, Niveau III.</li>
@@ -122,17 +122,17 @@ export const AboutContent = ({ onClose }: AboutContentProps) => {
                   </ul>
                 </div>
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
                   alt="Abonnements adaptés"
-                  className="rounded-lg shadow-lg"
+                  className="rounded-lg shadow-lg w-full h-[300px] object-cover"
                 />
               </div>
 
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9"
                   alt="Paiements sécurisés"
-                  className="rounded-lg shadow-lg"
+                  className="rounded-lg shadow-lg w-full h-[300px] object-cover"
                 />
                 <div>
                   <h3 className="text-2xl font-semibold text-gray-900 mb-4">5. Paiements Sécurisés</h3>
@@ -153,9 +153,9 @@ export const AboutContent = ({ onClose }: AboutContentProps) => {
                   </ul>
                 </div>
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
                   alt="Assistance personnalisée"
-                  className="rounded-lg shadow-lg"
+                  className="rounded-lg shadow-lg w-full h-[300px] object-cover"
                 />
               </div>
             </div>
@@ -165,9 +165,9 @@ export const AboutContent = ({ onClose }: AboutContentProps) => {
             <h2 className="text-3xl font-bold text-gray-900">Comment Ça Marche ?</h2>
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <img 
-                src="/placeholder.svg" 
+                src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
                 alt="Processus d'inscription"
-                className="rounded-lg shadow-lg"
+                className="rounded-lg shadow-lg w-full h-[300px] object-cover"
               />
               <div>
                 <h3 className="text-2xl font-semibold text-gray-900 mb-4">Inscription Facile</h3>
