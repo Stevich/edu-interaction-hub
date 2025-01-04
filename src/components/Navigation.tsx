@@ -4,15 +4,8 @@ import { Button } from "@/components/ui/button";
 import { LoginDialog } from "@/components/auth/LoginDialog";
 import { RegisterDialog } from "@/components/auth/RegisterDialog";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { UserCircle2, Menu, X, BookOpen, Globe, LogIn, UserPlus } from "lucide-react";
+import { UserCircle2, Menu, X, BookOpen, LogIn, UserPlus } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useLanguage } from "@/hooks/use-language";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,7 +13,6 @@ export const Navigation = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const { user, isAdmin, signOut } = useAuth();
   const isMobile = useIsMobile();
-  const { language, setLanguage, t } = useLanguage();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -36,33 +28,17 @@ export const Navigation = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <BookOpen className="h-6 w-6 text-primary" />
-              <span className="text-2xl font-bold text-primary">ClassConnect</span>
+              <BookOpen className="h-6 w-6 text-[#0EA5E9]" />
+              <span className="text-2xl font-bold text-[#0EA5E9]">ClassConnect</span>
             </Link>
           </div>
 
           <div className="hidden md:flex md:items-center md:space-x-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Globe className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setLanguage("fr")}>
-                  Français {language === "fr" && "✓"}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage("en")}>
-                  English {language === "en" && "✓"}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
             {user ? (
               <>
                 {isAdmin && (
                   <Link to="/admin/dashboard">
-                    <Button variant="ghost">Admin Dashboard</Button>
+                    <Button variant="ghost">Tableau de bord Admin</Button>
                   </Link>
                 )}
                 <div className="flex items-center space-x-2">
@@ -70,7 +46,7 @@ export const Navigation = () => {
                   <span>{user.email}</span>
                 </div>
                 <Button onClick={handleSignOut} variant="outline">
-                  Sign Out
+                  Déconnexion
                 </Button>
               </>
             ) : (
@@ -81,37 +57,21 @@ export const Navigation = () => {
                   className="flex items-center gap-2"
                 >
                   <LogIn className="h-4 w-4" />
-                  {t("nav.login")}
+                  Se connecter
                 </Button>
                 <Button 
                   variant="default" 
                   onClick={() => setIsRegisterOpen(true)}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 bg-[#0EA5E9] hover:bg-[#0284C7]"
                 >
                   <UserPlus className="h-4 w-4" />
-                  {t("nav.register")}
+                  S'inscrire
                 </Button>
               </>
             )}
           </div>
 
-          <div className="md:hidden flex items-center space-x-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Globe className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setLanguage("fr")}>
-                  Français {language === "fr" && "✓"}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage("en")}>
-                  English {language === "en" && "✓"}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            
+          <div className="md:hidden flex items-center">
             <Button variant="ghost" size="icon" onClick={toggleMenu}>
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -123,7 +83,7 @@ export const Navigation = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Menu mobile */}
       {isMobile && isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
@@ -134,7 +94,7 @@ export const Navigation = () => {
                     to="/admin/dashboard"
                     className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent"
                   >
-                    Admin Dashboard
+                    Tableau de bord Admin
                   </Link>
                 )}
                 <div className="px-3 py-2 flex items-center space-x-2">
@@ -146,7 +106,7 @@ export const Navigation = () => {
                   variant="outline"
                   className="w-full"
                 >
-                  Sign Out
+                  Déconnexion
                 </Button>
               </>
             ) : (
@@ -157,15 +117,15 @@ export const Navigation = () => {
                   onClick={() => setIsLoginOpen(true)}
                 >
                   <LogIn className="h-4 w-4" />
-                  {t("nav.login")}
+                  Se connecter
                 </Button>
                 <Button 
                   variant="default" 
-                  className="w-full flex items-center justify-center gap-2"
+                  className="w-full flex items-center justify-center gap-2 bg-[#0EA5E9] hover:bg-[#0284C7]"
                   onClick={() => setIsRegisterOpen(true)}
                 >
                   <UserPlus className="h-4 w-4" />
-                  {t("nav.register")}
+                  S'inscrire
                 </Button>
               </div>
             )}

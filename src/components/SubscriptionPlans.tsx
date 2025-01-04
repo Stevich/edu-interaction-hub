@@ -10,55 +10,53 @@ import {
 } from "@/components/ui/card";
 import { useState } from "react";
 import { RegisterDialog } from "@/components/auth/RegisterDialog";
-import { useLanguage } from "@/hooks/use-language";
 
 const plans = [
   {
     name: "Basic",
-    description: "Perfect for getting started",
+    description: "Parfait pour commencer",
     features: [
-      "Access to basic courses",
-      "Community forum",
-      "Limited learning resources",
+      "Accès aux cours de base",
+      "Forum communautaire",
+      "Ressources d'apprentissage limitées",
     ],
   },
   {
     name: "Standard",
-    description: "For serious learners",
+    description: "Pour les apprenants sérieux",
     features: [
-      "All Basic plan features",
-      "Access to more courses",
-      "Weekly Q&A sessions",
-      "Resource downloads",
+      "Toutes les fonctionnalités Basic",
+      "Accès à plus de cours",
+      "Sessions Q&R hebdomadaires",
+      "Téléchargement des ressources",
     ],
   },
   {
     name: "Premium",
-    description: "The complete experience",
+    description: "L'expérience complète",
     features: [
-      "All Standard plan features",
-      "Access to all courses",
-      "Unlimited video sessions",
-      "Priority support",
-      "Exclusive content",
+      "Toutes les fonctionnalités Standard",
+      "Accès à tous les cours",
+      "Sessions vidéo illimitées",
+      "Support prioritaire",
+      "Contenu exclusif",
     ],
   },
 ];
 
 export const SubscriptionPlans = () => {
   const [showRegister, setShowRegister] = useState(false);
-  const { t } = useLanguage();
 
   return (
     <div className="py-12 bg-[#F0F9FF]">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">{t("plans.title")}</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">Nos formules d'abonnement</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {plans.map((plan) => (
             <Card key={plan.name} className="flex flex-col border-[#0EA5E9]/20">
               <CardHeader>
-                <CardTitle className="text-2xl">{t(`plans.${plan.name.toLowerCase()}.name`)}</CardTitle>
-                <CardDescription>{t(`plans.${plan.name.toLowerCase()}.description`)}</CardDescription>
+                <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                <CardDescription>{plan.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
                 <ul className="space-y-3">
@@ -75,7 +73,7 @@ export const SubscriptionPlans = () => {
                   className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white" 
                   onClick={() => setShowRegister(true)}
                 >
-                  {t("plans.choose")}
+                  Choisir cette formule
                 </Button>
               </CardFooter>
             </Card>
