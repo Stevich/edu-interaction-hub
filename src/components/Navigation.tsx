@@ -4,8 +4,15 @@ import { Button } from "@/components/ui/button";
 import { LoginDialog } from "@/components/auth/LoginDialog";
 import { RegisterDialog } from "@/components/auth/RegisterDialog";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { UserCircle2, Menu, X } from "lucide-react";
+import { UserCircle2, Menu, X, BookOpen, Globe } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useLanguage } from "@/hooks/use-language";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,6 +20,7 @@ export const Navigation = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const { user, isAdmin, signOut } = useAuth();
   const isMobile = useIsMobile();
+  const { language, setLanguage, t } = useLanguage();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -26,13 +34,30 @@ export const Navigation = () => {
     <nav className="bg-background border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex">
-            <Link to="/" className="flex items-center">
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center space-x-2">
+              <BookOpen className="h-6 w-6 text-primary" />
               <span className="text-2xl font-bold text-primary">ClassConnect</span>
             </Link>
           </div>
 
           <div className="hidden md:flex md:items-center md:space-x-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Globe className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setLanguage("fr")}>
+                  Français {language === "fr" && "✓"}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage("en")}>
+                  English {language === "en" && "✓"}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             {user ? (
               <>
                 {isAdmin && (
@@ -51,24 +76,32 @@ export const Navigation = () => {
             ) : (
               <>
                 <Button variant="ghost" onClick={() => setIsLoginOpen(true)}>
-                  Login
+                  {t("nav.login")}
                 </Button>
                 <Button variant="default" onClick={() => setIsRegisterOpen(true)}>
-                  Register
+                  {t("nav.register")}
                 </Button>
-                <LoginDialog 
-                  open={isLoginOpen} 
-                  onOpenChange={setIsLoginOpen} 
-                />
-                <RegisterDialog 
-                  open={isRegisterOpen} 
-                  onOpenChange={setIsRegisterOpen} 
-                />
               </>
             )}
           </div>
 
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center space-x-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Globe className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setLanguage("fr")}>
+                  Français {language === "fr" && "✓"}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage("en")}>
+                  English {language === "en" && "✓"}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
             <Button variant="ghost" size="icon" onClick={toggleMenu}>
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -113,28 +146,23 @@ export const Navigation = () => {
                   className="w-full"
                   onClick={() => setIsLoginOpen(true)}
                 >
-                  Login
+                  {t("nav.login")}
                 </Button>
                 <Button 
                   variant="default" 
                   className="w-full"
                   onClick={() => setIsRegisterOpen(true)}
                 >
-                  Register
+                  {t("nav.register")}
                 </Button>
-                <LoginDialog 
-                  open={isLoginOpen} 
-                  onOpenChange={setIsLoginOpen} 
-                />
-                <RegisterDialog 
-                  open={isRegisterOpen} 
-                  onOpenChange={setIsRegisterOpen} 
-                />
               </div>
             )}
           </div>
         </div>
       )}
+      
+      <LoginDialog open={isLoginOpen} onOpenChange={setIsLoginOpen} />
+      <RegisterDialog open={isRegisterOpen} onOpenChange={setIsRegisterOpen} />
     </nav>
   );
 };
