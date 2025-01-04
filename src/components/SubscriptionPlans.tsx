@@ -74,7 +74,7 @@ export const SubscriptionPlans = () => {
                   variant="outline"
                   onClick={() => setShowRegister(true)}
                 >
-                  Commencer gratuitement
+                  Choisir
                 </Button>
               </CardFooter>
             </Card>
