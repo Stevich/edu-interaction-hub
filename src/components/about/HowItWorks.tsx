@@ -3,6 +3,7 @@ import { useLanguage } from "@/hooks/use-language";
 
 export const HowItWorks = () => {
   const { t } = useLanguage();
+  const steps = t("about.howItWorks.steps");
   
   return (
     <motion.section 
@@ -23,7 +24,7 @@ export const HowItWorks = () => {
             {t("about.howItWorks.registration")}
           </h3>
           <ul className="space-y-3 text-gray-600">
-            {t("about.howItWorks.steps").map((step: string, index: number) => (
+            {Array.isArray(steps) && steps.map((step: string, index: number) => (
               <li key={index}>{index + 1}. {step}</li>
             ))}
           </ul>

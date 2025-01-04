@@ -2,10 +2,16 @@ import { createContext, useContext, useState } from "react";
 
 type Language = "en" | "fr";
 
+type TranslationValue = string | string[];
+
+type Translations = {
+  [key: string]: TranslationValue;
+};
+
 type LanguageContextType = {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string) => TranslationValue;
 };
 
 const translations = {
@@ -152,7 +158,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   const [language, setLanguage] = useState<Language>("fr");
 
-  const t = (key: string) => {
+  const t = (key: string): TranslationValue => {
     return translations[language][key as keyof typeof translations.en] || key;
   };
 
