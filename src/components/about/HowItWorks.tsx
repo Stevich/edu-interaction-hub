@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "@/hooks/use-language";
 
 export const HowItWorks = () => {
+  const { t } = useLanguage();
+  
   return (
     <motion.section 
       initial={{ opacity: 0, y: 20 }}
@@ -8,7 +11,7 @@ export const HowItWorks = () => {
       transition={{ duration: 0.5 }}
       className="space-y-6"
     >
-      <h2 className="text-3xl font-bold text-gray-900">Comment Ça Marche ?</h2>
+      <h2 className="text-3xl font-bold text-gray-900">{t("about.howItWorks.title")}</h2>
       <div className="grid md:grid-cols-2 gap-8 items-center">
         <img 
           src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
@@ -16,13 +19,13 @@ export const HowItWorks = () => {
           className="rounded-lg shadow-lg w-full h-[300px] object-cover"
         />
         <div>
-          <h3 className="text-2xl font-semibold text-gray-900 mb-4">Inscription Facile</h3>
+          <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+            {t("about.howItWorks.registration")}
+          </h3>
           <ul className="space-y-3 text-gray-600">
-            <li>1. Créez un compte en fournissant vos informations</li>
-            <li>2. Recevez un email de confirmation</li>
-            <li>3. Choisissez votre abonnement</li>
-            <li>4. Accédez à vos cours</li>
-            <li>5. Participez aux sessions live</li>
+            {t("about.howItWorks.steps").map((step: string, index: number) => (
+              <li key={index}>{index + 1}. {step}</li>
+            ))}
           </ul>
         </div>
       </div>

@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "@/hooks/use-language";
 
 export const WhatIsClassConnect = () => {
+  const { t } = useLanguage();
+  
   return (
     <motion.section 
       initial={{ opacity: 0, y: 20 }}
@@ -8,14 +11,14 @@ export const WhatIsClassConnect = () => {
       transition={{ duration: 0.5 }}
       className="space-y-6"
     >
-      <h2 className="text-3xl font-bold text-gray-900">Qu'est-ce que ClassConnect ?</h2>
+      <h2 className="text-3xl font-bold text-gray-900">{t("about.whatIs.title")}</h2>
       <div className="grid md:grid-cols-2 gap-8 items-center">
         <div>
           <p className="text-gray-600 leading-relaxed">
-            ClassConnect est une plateforme d'apprentissage en ligne dédiée aux collégiens, lycéens, universitaires et professionnels. Elle offre des outils modernes pour apprendre efficacement, suivre des cours, accéder à des ressources personnalisées, et interagir avec des enseignants ou des experts dans divers domaines.
+            {t("about.whatIs.desc1")}
           </p>
           <p className="text-gray-600 leading-relaxed mt-4">
-            Que vous soyez étudiant préparant un examen ou professionnel cherchant à acquérir de nouvelles compétences, ClassConnect est conçu pour vous accompagner dans votre parcours.
+            {t("about.whatIs.desc2")}
           </p>
         </div>
         <img 

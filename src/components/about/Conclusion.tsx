@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "@/hooks/use-language";
 
 export const Conclusion = () => {
+  const { t } = useLanguage();
+  
   return (
     <motion.section 
       initial={{ opacity: 0, y: 20 }}
@@ -9,8 +12,7 @@ export const Conclusion = () => {
       className="text-center"
     >
       <p className="text-xl text-gray-600 leading-relaxed">
-        ClassConnect n'est pas juste une plateforme, c'est une révolution dans l'éducation. 
-        Rejoignez-nous pour transformer votre façon d'apprendre et atteindre vos objectifs académiques ou professionnels.
+        {t("about.conclusion")}
       </p>
     </motion.section>
   );

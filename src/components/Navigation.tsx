@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { LoginDialog } from "@/components/auth/LoginDialog";
 import { RegisterDialog } from "@/components/auth/RegisterDialog";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { UserCircle2, Menu, X, BookOpen, Globe } from "lucide-react";
+import { UserCircle2, Menu, X, BookOpen, Globe, LogIn, UserPlus } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLanguage } from "@/hooks/use-language";
 import {
@@ -75,10 +75,20 @@ export const Navigation = () => {
               </>
             ) : (
               <>
-                <Button variant="ghost" onClick={() => setIsLoginOpen(true)}>
+                <Button 
+                  variant="ghost" 
+                  onClick={() => setIsLoginOpen(true)}
+                  className="flex items-center gap-2"
+                >
+                  <LogIn className="h-4 w-4" />
                   {t("nav.login")}
                 </Button>
-                <Button variant="default" onClick={() => setIsRegisterOpen(true)}>
+                <Button 
+                  variant="default" 
+                  onClick={() => setIsRegisterOpen(true)}
+                  className="flex items-center gap-2"
+                >
+                  <UserPlus className="h-4 w-4" />
                   {t("nav.register")}
                 </Button>
               </>
@@ -143,16 +153,18 @@ export const Navigation = () => {
               <div className="space-y-2">
                 <Button 
                   variant="ghost" 
-                  className="w-full"
+                  className="w-full flex items-center justify-center gap-2"
                   onClick={() => setIsLoginOpen(true)}
                 >
+                  <LogIn className="h-4 w-4" />
                   {t("nav.login")}
                 </Button>
                 <Button 
                   variant="default" 
-                  className="w-full"
+                  className="w-full flex items-center justify-center gap-2"
                   onClick={() => setIsRegisterOpen(true)}
                 >
+                  <UserPlus className="h-4 w-4" />
                   {t("nav.register")}
                 </Button>
               </div>
