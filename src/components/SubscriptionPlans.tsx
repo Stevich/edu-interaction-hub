@@ -13,7 +13,7 @@ import { RegisterDialog } from "@/components/auth/RegisterDialog";
 
 const plans = [
   {
-    name: "Basique",
+    name: "Basic",
     description: "Parfait pour débuter",
     features: [
       "Accès aux cours de base",
@@ -22,10 +22,10 @@ const plans = [
     ],
   },
   {
-    name: "Intermédiaire",
+    name: "Standard",
     description: "Pour les apprenants sérieux",
     features: [
-      "Tous les avantages du plan Basique",
+      "Tous les avantages du plan Basic",
       "Accès à plus de cours",
       "Sessions de Q&R hebdomadaires",
       "Téléchargement des ressources",
@@ -35,7 +35,7 @@ const plans = [
     name: "Premium",
     description: "L'expérience complète",
     features: [
-      "Tous les avantages du plan Intermédiaire",
+      "Tous les avantages du plan Standard",
       "Accès à tous les cours",
       "Sessions de visioconférence illimitées",
       "Support prioritaire",
@@ -74,7 +74,7 @@ export const SubscriptionPlans = () => {
                   variant="outline"
                   onClick={() => setShowRegister(true)}
                 >
-                  Choisir {plan.name}
+                  Commencer
                 </Button>
               </CardFooter>
             </Card>
