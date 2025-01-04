@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { BookOpen } from "lucide-react";
 
 interface LoginDialogProps {
   open: boolean;
@@ -56,9 +57,19 @@ export const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center">
-            {isResettingPassword ? "Réinitialiser le mot de passe" : "Connexion"}
-          </DialogTitle>
+          <div className="flex flex-col items-center space-y-4">
+            <div className="p-3 rounded-full bg-blue-100">
+              <BookOpen className="h-8 w-8 text-blue-600" />
+            </div>
+            <DialogTitle className="text-2xl font-bold text-center">
+              {isResettingPassword ? "Réinitialiser le mot de passe" : "Bienvenue sur ClassConnect"}
+            </DialogTitle>
+            {!isResettingPassword && (
+              <p className="text-sm text-gray-500 text-center">
+                Connectez-vous pour accéder à votre espace d'apprentissage
+              </p>
+            )}
+          </div>
         </DialogHeader>
         {isResettingPassword ? (
           <form onSubmit={handlePasswordReset} className="space-y-4 mt-4">
@@ -71,16 +82,17 @@ export const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="border-blue-200 focus:border-blue-400"
               />
             </div>
             <div className="space-y-2">
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
                 Envoyer le lien de réinitialisation
               </Button>
               <Button 
                 type="button" 
                 variant="ghost" 
-                className="w-full"
+                className="w-full text-gray-600 hover:text-blue-600"
                 onClick={() => setIsResettingPassword(false)}
               >
                 Retour à la connexion
@@ -98,6 +110,7 @@ export const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="border-blue-200 focus:border-blue-400"
               />
             </div>
             <div className="space-y-2">
@@ -105,18 +118,20 @@ export const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
               <Input
                 id="password"
                 type="password"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="border-blue-200 focus:border-blue-400"
               />
             </div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
               Se connecter
             </Button>
             <Button 
               type="button" 
               variant="link" 
-              className="w-full"
+              className="w-full text-blue-600 hover:text-blue-700"
               onClick={() => setIsResettingPassword(true)}
             >
               Mot de passe oublié ?
