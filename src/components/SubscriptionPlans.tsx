@@ -50,12 +50,12 @@ export const SubscriptionPlans = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="py-12 bg-[#F8F7FF]">
+    <div className="py-12 bg-[#F0F9FF]">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12">{t("plans.title")}</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {plans.map((plan) => (
-            <Card key={plan.name} className="flex flex-col border-[#D6BCFA]">
+            <Card key={plan.name} className="flex flex-col border-[#0EA5E9]/20">
               <CardHeader>
                 <CardTitle className="text-2xl">{t(`plans.${plan.name.toLowerCase()}.name`)}</CardTitle>
                 <CardDescription>{t(`plans.${plan.name.toLowerCase()}.description`)}</CardDescription>
@@ -64,7 +64,7 @@ export const SubscriptionPlans = () => {
                 <ul className="space-y-3">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2">
-                      <Check className="h-5 w-5 text-[#9b87f5]" />
+                      <Check className="h-5 w-5 text-[#0EA5E9]" />
                       <span>{feature}</span>
                     </li>
                   ))}
@@ -72,7 +72,7 @@ export const SubscriptionPlans = () => {
               </CardContent>
               <CardFooter>
                 <Button 
-                  className="w-full bg-[#9b87f5] hover:bg-[#8b77e5] text-white" 
+                  className="w-full bg-[#0EA5E9] hover:bg-[#0284C7] text-white" 
                   onClick={() => setShowRegister(true)}
                 >
                   {t("plans.choose")}
