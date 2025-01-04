@@ -9,6 +9,8 @@ import { useMobile } from "@/hooks/use-mobile";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const { user, isAdmin, signOut } = useAuth();
   const isMobile = useMobile();
 
@@ -48,8 +50,20 @@ export const Navigation = () => {
               </>
             ) : (
               <>
-                <LoginDialog />
-                <RegisterDialog />
+                <Button variant="ghost" onClick={() => setIsLoginOpen(true)}>
+                  Login
+                </Button>
+                <Button variant="default" onClick={() => setIsRegisterOpen(true)}>
+                  Register
+                </Button>
+                <LoginDialog 
+                  open={isLoginOpen} 
+                  onOpenChange={setIsLoginOpen} 
+                />
+                <RegisterDialog 
+                  open={isRegisterOpen} 
+                  onOpenChange={setIsRegisterOpen} 
+                />
               </>
             )}
           </div>
@@ -94,8 +108,28 @@ export const Navigation = () => {
               </>
             ) : (
               <div className="space-y-2">
-                <LoginDialog />
-                <RegisterDialog />
+                <Button 
+                  variant="ghost" 
+                  className="w-full"
+                  onClick={() => setIsLoginOpen(true)}
+                >
+                  Login
+                </Button>
+                <Button 
+                  variant="default" 
+                  className="w-full"
+                  onClick={() => setIsRegisterOpen(true)}
+                >
+                  Register
+                </Button>
+                <LoginDialog 
+                  open={isLoginOpen} 
+                  onOpenChange={setIsLoginOpen} 
+                />
+                <RegisterDialog 
+                  open={isRegisterOpen} 
+                  onOpenChange={setIsRegisterOpen} 
+                />
               </div>
             )}
           </div>
