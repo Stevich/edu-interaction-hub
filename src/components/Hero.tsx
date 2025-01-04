@@ -11,7 +11,7 @@ export const Hero = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen pt-20 bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div className="min-h-screen pt-20 bg-gradient-to-br from-purple-50 via-white to-purple-50">
       <div className="max-w-7xl mx-auto px-6 py-24">
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <h1 className="text-5xl font-bold text-gray-900 leading-tight">
@@ -25,7 +25,7 @@ export const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Button 
               size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8"
+              className="bg-[#9b87f5] hover:bg-[#8b77e5] text-white px-8"
               onClick={() => setShowRegister(true)}
             >
               {t("hero.start")}
@@ -33,7 +33,7 @@ export const Hero = () => {
             <Button 
               variant="outline" 
               size="lg"
-              className="border-blue-200 text-blue-600 hover:bg-blue-50"
+              className="border-[#D6BCFA] text-[#9b87f5] hover:bg-[#E5DEFF]"
               onClick={() => setShowAbout(true)}
             >
               {t("hero.learnMore")}
@@ -42,27 +42,27 @@ export const Hero = () => {
         </div>
 
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="p-6 bg-white rounded-xl shadow-sm border border-blue-100">
+          <div className="p-6 bg-white rounded-xl shadow-sm border border-[#D6BCFA]">
             <div className="flex justify-center mb-4">
-              <Play className="h-8 w-8 text-blue-600" />
+              <Play className="h-8 w-8 text-[#9b87f5]" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               {t("features.interactive")}
             </h3>
             <p className="text-gray-600">{t("features.interactive.desc")}</p>
           </div>
-          <div className="p-6 bg-white rounded-xl shadow-sm border border-blue-100">
+          <div className="p-6 bg-white rounded-xl shadow-sm border border-[#D6BCFA]">
             <div className="flex justify-center mb-4">
-              <UserCheck className="h-8 w-8 text-blue-600" />
+              <UserCheck className="h-8 w-8 text-[#9b87f5]" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               {t("features.personalized")}
             </h3>
             <p className="text-gray-600">{t("features.personalized.desc")}</p>
           </div>
-          <div className="p-6 bg-white rounded-xl shadow-sm border border-blue-100">
+          <div className="p-6 bg-white rounded-xl shadow-sm border border-[#D6BCFA]">
             <div className="flex justify-center mb-4">
-              <Users className="h-8 w-8 text-blue-600" />
+              <Users className="h-8 w-8 text-[#9b87f5]" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               {t("features.community")}

@@ -23,6 +23,14 @@ const translations = {
     "features.personalized.desc": "Progress at your own pace with tailored recommendations",
     "features.community": "Active Community",
     "features.community.desc": "Exchange with other learners and experts",
+    "plans.title": "Our Plans",
+    "plans.basic.name": "Basic",
+    "plans.basic.description": "Perfect for getting started",
+    "plans.standard.name": "Standard",
+    "plans.standard.description": "For serious learners",
+    "plans.premium.name": "Premium",
+    "plans.premium.description": "The complete experience",
+    "plans.choose": "Choose Plan"
   },
   fr: {
     "nav.login": "Se connecter",
@@ -38,6 +46,14 @@ const translations = {
     "features.personalized.desc": "Progressez à votre rythme avec des recommandations adaptées",
     "features.community": "Communauté active",
     "features.community.desc": "Échangez avec d'autres apprenants et des experts",
+    "plans.title": "Nos Abonnements",
+    "plans.basic.name": "Basic",
+    "plans.basic.description": "Parfait pour débuter",
+    "plans.standard.name": "Standard",
+    "plans.standard.description": "Pour les apprenants sérieux",
+    "plans.premium.name": "Premium",
+    "plans.premium.description": "L'expérience complète",
+    "plans.choose": "Choisir"
   },
 };
 
