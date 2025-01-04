@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { LoginDialog } from "@/components/auth/LoginDialog";
 import { RegisterDialog } from "@/components/auth/RegisterDialog";
 
 export const Navigation = () => {
   const { user, isAdmin, signOut } = useAuth();
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [registerOpen, setRegisterOpen] = useState(false);
 
   return (
     <nav className="bg-white shadow-sm">
@@ -39,8 +42,14 @@ export const Navigation = () => {
               </Button>
             ) : (
               <>
-                <LoginDialog />
-                <RegisterDialog />
+                <LoginDialog 
+                  open={loginOpen} 
+                  onOpenChange={setLoginOpen}
+                />
+                <RegisterDialog 
+                  open={registerOpen} 
+                  onOpenChange={setRegisterOpen}
+                />
               </>
             )}
           </div>
