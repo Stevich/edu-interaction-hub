@@ -8,11 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useState } from "react";
+import { RegisterDialog } from "@/components/auth/RegisterDialog";
 
 const plans = [
   {
     name: "Basique",
-    price: "Gratuit",
     description: "Parfait pour débuter",
     features: [
       "Accès aux cours de base",
@@ -22,7 +23,6 @@ const plans = [
   },
   {
     name: "Intermédiaire",
-    price: "5000 FCFA/mois",
     description: "Pour les apprenants sérieux",
     features: [
       "Tous les avantages du plan Basique",
@@ -33,7 +33,6 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "10000 FCFA/mois",
     description: "L'expérience complète",
     features: [
       "Tous les avantages du plan Intermédiaire",
@@ -46,6 +45,8 @@ const plans = [
 ];
 
 export const SubscriptionPlans = () => {
+  const [showRegister, setShowRegister] = useState(false);
+
   return (
     <div className="py-12 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -58,7 +59,6 @@ export const SubscriptionPlans = () => {
                 <CardDescription>{plan.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
-                <p className="text-3xl font-bold mb-6">{plan.price}</p>
                 <ul className="space-y-3">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2">
@@ -69,7 +69,11 @@ export const SubscriptionPlans = () => {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" variant={plan.name === "Premium" ? "default" : "outline"}>
+                <Button 
+                  className="w-full" 
+                  variant={plan.name === "Premium" ? "default" : "outline"}
+                  onClick={() => setShowRegister(true)}
+                >
                   Choisir {plan.name}
                 </Button>
               </CardFooter>
@@ -77,6 +81,7 @@ export const SubscriptionPlans = () => {
           ))}
         </div>
       </div>
+      <RegisterDialog open={showRegister} onOpenChange={setShowRegister} />
     </div>
   );
 };
