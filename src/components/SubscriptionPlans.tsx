@@ -71,7 +71,7 @@ export const SubscriptionPlans = () => {
               <CardFooter>
                 <Button 
                   className="w-full" 
-                  variant={plan.name === "Premium" ? "default" : "outline"}
+                  variant="outline"
                   onClick={() => setShowRegister(true)}
                 >
                   Choisir {plan.name}
