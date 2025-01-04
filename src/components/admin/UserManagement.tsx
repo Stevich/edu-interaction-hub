@@ -27,9 +27,16 @@ export const UserManagement = () => {
   const { data: users, refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: usersData, error } = await supabase
         .from("users")
-        .select("*")
+        .select(`
+          id,
+          role,
+          created_at,
+          auth_users:id (
+            email
+          )
+        `)
         .order("created_at", { ascending: false });
 
       if (error) {
@@ -37,7 +44,15 @@ export const UserManagement = () => {
         throw error;
       }
 
-      return data as User[];
+      // Transform the data to match our User type
+      const transformedUsers = usersData.map((user: any) => ({
+        id: user.id,
+        email: user.auth_users?.email || "N/A",
+        role: user.role || "user",
+        created_at: user.created_at,
+      }));
+
+      return transformedUsers as User[];
     },
   });
 
