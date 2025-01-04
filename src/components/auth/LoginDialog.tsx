@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LoginDialogProps {
   open: boolean;
@@ -15,42 +16,62 @@ export const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     
-    if (email === "admin@classconnect.com" && password === "admin123") {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
       toast({
         title: "Connexion réussie",
         description: "Bienvenue sur ClassConnect!",
       });
       onOpenChange(false);
-    } else {
+    } catch (error: any) {
       toast({
         title: "Erreur de connexion",
-        description: "Email ou mot de passe incorrect",
+        description: error.message || "Une erreur est survenue",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) {
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Email envoyé",
+        description: "Si un compte existe avec cette adresse, vous recevrez un email de réinitialisation.",
+      });
+      setIsResettingPassword(false);
+    } catch (error: any) {
       toast({
         title: "Erreur",
-        description: "Veuillez entrer votre adresse email",
+        description: error.message || "Une erreur est survenue",
         variant: "destructive",
       });
-      return;
+    } finally {
+      setIsLoading(false);
     }
-    
-    toast({
-      title: "Email envoyé",
-      description: "Si un compte existe avec cette adresse, vous recevrez un email de réinitialisation.",
-    });
-    setIsResettingPassword(false);
   };
 
   return (
@@ -82,11 +103,19 @@ export const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={isLoading}
                 className="border-blue-200 focus:border-blue-400"
               />
             </div>
             <div className="space-y-2">
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+              <Button 
+                type="submit" 
+                className="w-full bg-blue-600 hover:bg-blue-700"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                ) : null}
                 Envoyer le lien de réinitialisation
               </Button>
               <Button 
@@ -94,6 +123,7 @@ export const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
                 variant="ghost" 
                 className="w-full text-gray-600 hover:text-blue-600"
                 onClick={() => setIsResettingPassword(false)}
+                disabled={isLoading}
               >
                 Retour à la connexion
               </Button>
@@ -110,6 +140,7 @@ export const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={isLoading}
                 className="border-blue-200 focus:border-blue-400"
               />
             </div>
@@ -122,10 +153,18 @@ export const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={isLoading}
                 className="border-blue-200 focus:border-blue-400"
               />
             </div>
-            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+            <Button 
+              type="submit" 
+              className="w-full bg-blue-600 hover:bg-blue-700"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : null}
               Se connecter
             </Button>
             <Button 
@@ -133,6 +172,7 @@ export const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
               variant="link" 
               className="w-full text-blue-600 hover:text-blue-700"
               onClick={() => setIsResettingPassword(true)}
+              disabled={isLoading}
             >
               Mot de passe oublié ?
             </Button>

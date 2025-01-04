@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Loader2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
 
 interface RegisterDialogProps {
   open: boolean;
@@ -21,6 +22,7 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
     role: "",
     level: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,11 +46,37 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
       return;
     }
 
-    toast({
-      title: "Inscription réussie",
-      description: "Votre compte a été créé avec succès!",
-    });
-    onOpenChange(false);
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: formData.name,
+            education_level: formData.level,
+            role: formData.role,
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Inscription réussie",
+        description: "Votre compte a été créé avec succès! Veuillez vérifier votre email pour confirmer votre inscription.",
+      });
+      onOpenChange(false);
+    } catch (error: any) {
+      toast({
+        title: "Erreur lors de l'inscription",
+        description: error.message || "Une erreur est survenue",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,6 +118,7 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
               value={formData.name}
               onChange={handleChange}
               required
+              disabled={isLoading}
               className="border-blue-200 focus:border-blue-400"
             />
           </div>
@@ -102,13 +131,17 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
               value={formData.email}
               onChange={handleChange}
               required
+              disabled={isLoading}
               className="border-blue-200 focus:border-blue-400"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Profil</Label>
-              <Select onValueChange={(value) => handleSelectChange(value, 'role')}>
+              <Select 
+                onValueChange={(value) => handleSelectChange(value, 'role')}
+                disabled={isLoading}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Sélectionner" />
                 </SelectTrigger>
@@ -121,7 +154,10 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
             </div>
             <div className="space-y-2">
               <Label>Niveau</Label>
-              <Select onValueChange={(value) => handleSelectChange(value, 'level')}>
+              <Select 
+                onValueChange={(value) => handleSelectChange(value, 'level')}
+                disabled={isLoading}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Sélectionner" />
                 </SelectTrigger>
@@ -143,6 +179,7 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
               value={formData.password}
               onChange={handleChange}
               required
+              disabled={isLoading}
               className="border-blue-200 focus:border-blue-400"
             />
           </div>
@@ -155,10 +192,18 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
+              disabled={isLoading}
               className="border-blue-200 focus:border-blue-400"
             />
           </div>
-          <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+          <Button 
+            type="submit" 
+            className="w-full bg-blue-600 hover:bg-blue-700"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+            ) : null}
             S'inscrire
           </Button>
         </form>
