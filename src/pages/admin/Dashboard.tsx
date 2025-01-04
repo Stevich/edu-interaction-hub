@@ -3,33 +3,30 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminStats } from "@/components/admin/AdminStats";
-import { toast } from "sonner";
 
-const AdminDashboard = () => {
-  const { session } = useAuth();
+const Dashboard = () => {
+  const { user, isAdmin } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!session) {
-      toast.error("Vous devez être connecté pour accéder au tableau de bord administrateur");
+    if (!user || !isAdmin) {
       navigate("/");
     }
-  }, [session, navigate]);
+  }, [user, isAdmin, navigate]);
+
+  if (!user || !isAdmin) {
+    return null;
+  }
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-background">
       <AdminSidebar />
-      <main className="flex-1 overflow-y-auto p-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Tableau de bord</h1>
-          <p className="mt-2 text-gray-600">
-            Bienvenue sur le tableau de bord administrateur de ClassConnect
-          </p>
-        </div>
+      <main className="flex-1 p-8 overflow-auto">
+        <h1 className="text-4xl font-bold mb-8">Dashboard</h1>
         <AdminStats />
       </main>
     </div>
   );
 };
 
-export default AdminDashboard;
+export default Dashboard;
