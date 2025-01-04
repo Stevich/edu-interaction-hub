@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Play, UserCheck, Users } from "lucide-react";
+import { useState } from "react";
+import { RegisterDialog } from "@/components/auth/RegisterDialog";
 
 export const Hero = () => {
+  const [showRegister, setShowRegister] = useState(false);
+
   return (
     <div className="min-h-screen pt-20 bg-gradient-to-br from-blue-50 via-white to-blue-50">
       <div className="max-w-7xl mx-auto px-6 py-24">
@@ -20,8 +24,9 @@ export const Hero = () => {
             <Button 
               size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-white px-8"
+              onClick={() => setShowRegister(true)}
             >
-              Commencer gratuitement
+              Commencer
             </Button>
             <Button 
               variant="outline" 
@@ -57,6 +62,7 @@ export const Hero = () => {
           </div>
         </div>
       </div>
+      <RegisterDialog open={showRegister} onOpenChange={setShowRegister} />
     </div>
   );
 };
