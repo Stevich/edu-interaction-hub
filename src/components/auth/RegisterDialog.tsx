@@ -20,7 +20,6 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
     password: "",
     confirmPassword: "",
     role: "",
-    level: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -37,31 +36,24 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
       return;
     }
 
-    if (!formData.role || !formData.level) {
-      toast({
-        title: "Erreur",
-        description: "Veuillez sélectionner votre profil et niveau",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp({
+      // Register the user
+      const { error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
-        options: {
-          data: {
-            full_name: formData.name,
-            education_level: formData.level,
-            role: formData.role,
-          },
-        },
       });
 
-      if (error) throw error;
+      if (signUpError) throw signUpError;
+
+      // Update the user's role in the users table
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ role: formData.role })
+        .eq('id', (await supabase.auth.getUser()).data.user?.id);
+
+      if (updateError) throw updateError;
 
       toast({
         title: "Inscription réussie",
@@ -86,10 +78,10 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
     });
   };
 
-  const handleSelectChange = (value: string, field: string) => {
+  const handleSelectChange = (value: string) => {
     setFormData({
       ...formData,
-      [field]: value,
+      role: value,
     });
   };
 
@@ -135,40 +127,20 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
               className="border-blue-200 focus:border-blue-400"
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Profil</Label>
-              <Select 
-                onValueChange={(value) => handleSelectChange(value, 'role')}
-                disabled={isLoading}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="student">Étudiant</SelectItem>
-                  <SelectItem value="teacher">Enseignant</SelectItem>
-                  <SelectItem value="professional">Professionnel</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>Niveau</Label>
-              <Select 
-                onValueChange={(value) => handleSelectChange(value, 'level')}
-                disabled={isLoading}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="college">Collège</SelectItem>
-                  <SelectItem value="lycee">Lycée</SelectItem>
-                  <SelectItem value="university">Université</SelectItem>
-                  <SelectItem value="professional">Professionnel</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="space-y-2">
+            <Label>Rôle</Label>
+            <Select 
+              onValueChange={handleSelectChange}
+              disabled={isLoading}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Sélectionner un rôle" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="user">Utilisateur</SelectItem>
+                <SelectItem value="admin">Administrateur</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Mot de passe</Label>
