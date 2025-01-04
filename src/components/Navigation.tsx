@@ -32,23 +32,19 @@ export const Navigation = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            {user ? (
-              <Button onClick={signOut} variant="outline">
-                Déconnexion
-              </Button>
-            ) : (
+            {!user ? (
               <>
                 <Button 
                   variant="outline"
                   onClick={() => setLoginOpen(true)}
                 >
-                  <LogIn className="mr-2" />
+                  <LogIn className="mr-2 h-4 w-4" />
                   Se connecter
                 </Button>
                 <Button 
                   onClick={() => setRegisterOpen(true)}
                 >
-                  <UserPlus className="mr-2" />
+                  <UserPlus className="mr-2 h-4 w-4" />
                   S'inscrire
                 </Button>
                 <LoginDialog 
@@ -60,6 +56,10 @@ export const Navigation = () => {
                   onOpenChange={setRegisterOpen}
                 />
               </>
+            ) : (
+              <Button onClick={signOut} variant="outline">
+                Déconnexion
+              </Button>
             )}
           </div>
         </div>
