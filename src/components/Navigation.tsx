@@ -5,14 +5,14 @@ import { LoginDialog } from "@/components/auth/LoginDialog";
 import { RegisterDialog } from "@/components/auth/RegisterDialog";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { UserCircle2, Menu, X } from "lucide-react";
-import { useMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const { user, isAdmin, signOut } = useAuth();
-  const isMobile = useMobile();
+  const isMobile = useIsMobile();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

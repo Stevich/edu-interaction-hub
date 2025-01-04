@@ -53,19 +53,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    const { data, error } = await supabase
-      .from('users')
-      .select('role')
-      .eq('id', userId)
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('role')
+        .eq('id', userId)
+        .single();
 
-    if (error) {
+      if (error) {
+        console.error('Error checking admin status:', error);
+        setIsAdmin(false);
+        return;
+      }
+
+      setIsAdmin(data?.role === 'admin');
+    } catch (error) {
       console.error('Error checking admin status:', error);
       setIsAdmin(false);
-      return;
     }
-
-    setIsAdmin(data?.role === 'admin');
   };
 
   const signOut = async () => {
