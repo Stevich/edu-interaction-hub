@@ -1,117 +1,20 @@
-import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
 import { BookOpen, Loader2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
-
-interface RegisterDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
+import { RegisterDialogProps } from "./types/register";
+import { useRegisterForm } from "./hooks/useRegisterForm";
 
 export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (formData.password !== formData.confirmPassword) {
-      toast({
-        title: "Erreur",
-        description: "Les mots de passe ne correspondent pas",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      console.log("Tentative d'inscription avec:", { email: formData.email, role: formData.role });
-      
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            name: formData.name,
-            role: formData.role,
-          }
-        }
-      });
-
-      if (signUpError) {
-        console.error("Erreur lors de l'inscription:", signUpError);
-        throw signUpError;
-      }
-
-      if (!data.user) {
-        throw new Error("Erreur lors de la création de l'utilisateur");
-      }
-
-      console.log("Utilisateur créé avec succès:", data.user);
-
-      // Update the user's role in the users table
-      const { error: updateError } = await supabase
-        .from('users')
-        .update({ role: formData.role })
-        .eq('id', data.user.id);
-
-      if (updateError) {
-        console.error("Erreur lors de la mise à jour du rôle:", updateError);
-        throw updateError;
-      }
-
-      console.log("Rôle mis à jour avec succès");
-
-      toast({
-        title: "Inscription réussie",
-        description: "Votre compte a été créé avec succès! Vous pouvez maintenant vous connecter.",
-      });
-      onOpenChange(false);
-    } catch (error: any) {
-      console.error("Erreur complète:", error);
-      let errorMessage = "Une erreur est survenue lors de l'inscription";
-      
-      if (error.message === "User already registered") {
-        errorMessage = "Un compte existe déjà avec cet email. Veuillez vous connecter ou utiliser une autre adresse email.";
-      }
-      
-      toast({
-        title: "Erreur lors de l'inscription",
-        description: errorMessage,
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
-
-  const handleSelectChange = (value: string) => {
-    setFormData({
-      ...formData,
-      role: value,
-    });
-  };
+  const {
+    formData,
+    isLoading,
+    handleSubmit,
+    handleChange,
+    handleSelectChange,
+  } = useRegisterForm(() => onOpenChange(false));
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
