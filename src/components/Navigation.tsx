@@ -7,7 +7,7 @@ import { RegisterDialog } from "@/components/auth/RegisterDialog";
 import { BookOpen, LogIn, UserPlus } from "lucide-react";
 
 export const Navigation = () => {
-  const { user, isAdmin, signOut } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
 
@@ -32,35 +32,27 @@ export const Navigation = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            {user === null ? (
-              <>
-                <Button 
-                  variant="outline"
-                  onClick={() => setLoginOpen(true)}
-                >
-                  <LogIn className="mr-2 h-4 w-4" />
-                  Se connecter
-                </Button>
-                <Button 
-                  onClick={() => setRegisterOpen(true)}
-                >
-                  <UserPlus className="mr-2 h-4 w-4" />
-                  S'inscrire
-                </Button>
-                <LoginDialog 
-                  open={loginOpen} 
-                  onOpenChange={setLoginOpen}
-                />
-                <RegisterDialog 
-                  open={registerOpen} 
-                  onOpenChange={setRegisterOpen}
-                />
-              </>
-            ) : (
-              <Button onClick={signOut} variant="outline">
-                Déconnexion
-              </Button>
-            )}
+            <Button 
+              variant="outline"
+              onClick={() => setLoginOpen(true)}
+            >
+              <LogIn className="mr-2 h-4 w-4" />
+              Se connecter
+            </Button>
+            <Button 
+              onClick={() => setRegisterOpen(true)}
+            >
+              <UserPlus className="mr-2 h-4 w-4" />
+              S'inscrire
+            </Button>
+            <LoginDialog 
+              open={loginOpen} 
+              onOpenChange={setLoginOpen}
+            />
+            <RegisterDialog 
+              open={registerOpen} 
+              onOpenChange={setRegisterOpen}
+            />
           </div>
         </div>
       </div>
