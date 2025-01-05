@@ -40,20 +40,33 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
 
     try {
       // Register the user
-      const { error: signUpError } = await supabase.auth.signUp({
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
+        options: {
+          data: {
+            name: formData.name,
+            role: formData.role,
+          }
+        }
       });
 
-      if (signUpError) throw signUpError;
+      if (signUpError) {
+        if (signUpError.message === "User already registered") {
+          throw new Error("Un compte existe déjà avec cet email. Veuillez vous connecter ou utiliser une autre adresse email.");
+        }
+        throw signUpError;
+      }
 
       // Update the user's role in the users table
-      const { error: updateError } = await supabase
-        .from('users')
-        .update({ role: formData.role })
-        .eq('id', (await supabase.auth.getUser()).data.user?.id);
+      if (data.user) {
+        const { error: updateError } = await supabase
+          .from('users')
+          .update({ role: formData.role })
+          .eq('id', data.user.id);
 
-      if (updateError) throw updateError;
+        if (updateError) throw updateError;
+      }
 
       toast({
         title: "Inscription réussie",
