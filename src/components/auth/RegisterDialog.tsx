@@ -39,7 +39,8 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
     setIsLoading(true);
 
     try {
-      // Register the user
+      console.log("Tentative d'inscription avec:", { email: formData.email, role: formData.role });
+      
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -52,31 +53,45 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
       });
 
       if (signUpError) {
-        if (signUpError.message === "User already registered") {
-          throw new Error("Un compte existe déjà avec cet email. Veuillez vous connecter ou utiliser une autre adresse email.");
-        }
+        console.error("Erreur lors de l'inscription:", signUpError);
         throw signUpError;
       }
 
-      // Update the user's role in the users table
-      if (data.user) {
-        const { error: updateError } = await supabase
-          .from('users')
-          .update({ role: formData.role })
-          .eq('id', data.user.id);
-
-        if (updateError) throw updateError;
+      if (!data.user) {
+        throw new Error("Erreur lors de la création de l'utilisateur");
       }
+
+      console.log("Utilisateur créé avec succès:", data.user);
+
+      // Update the user's role in the users table
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ role: formData.role })
+        .eq('id', data.user.id);
+
+      if (updateError) {
+        console.error("Erreur lors de la mise à jour du rôle:", updateError);
+        throw updateError;
+      }
+
+      console.log("Rôle mis à jour avec succès");
 
       toast({
         title: "Inscription réussie",
-        description: "Votre compte a été créé avec succès! Veuillez vérifier votre email pour confirmer votre inscription.",
+        description: "Votre compte a été créé avec succès! Vous pouvez maintenant vous connecter.",
       });
       onOpenChange(false);
     } catch (error: any) {
+      console.error("Erreur complète:", error);
+      let errorMessage = "Une erreur est survenue lors de l'inscription";
+      
+      if (error.message === "User already registered") {
+        errorMessage = "Un compte existe déjà avec cet email. Veuillez vous connecter ou utiliser une autre adresse email.";
+      }
+      
       toast({
         title: "Erreur lors de l'inscription",
-        description: error.message || "Une erreur est survenue",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -145,6 +160,7 @@ export const RegisterDialog = ({ open, onOpenChange }: RegisterDialogProps) => {
             <Select 
               onValueChange={handleSelectChange}
               disabled={isLoading}
+              required
             >
               <SelectTrigger>
                 <SelectValue placeholder="Sélectionner un rôle" />
