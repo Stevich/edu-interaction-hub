@@ -52,14 +52,18 @@ export const useRegisterForm = (onSuccess: () => void) => {
         role: formData.role,
         name: formData.name 
       });
-      
-      const { data: existingUser } = await supabase
-        .from('users')
-        .select('id')
-        .eq('id', formData.email)
-        .single();
 
-      if (existingUser) {
+      // Vérifier si l'email existe déjà dans auth.users
+      const { data: existingUser, error: checkError } = await supabase.auth.admin.listUsers();
+      
+      if (checkError) {
+        console.error("Erreur lors de la vérification de l'email:", checkError);
+        throw checkError;
+      }
+
+      const emailExists = existingUser?.users.some(user => user.email === formData.email);
+      
+      if (emailExists) {
         toast({
           title: "Erreur",
           description: "Un compte existe déjà avec cet email. Veuillez vous connecter ou utiliser une autre adresse email.",
