@@ -26,33 +26,73 @@ export const useRegisterForm = (onSuccess: () => void) => {
       return;
     }
 
+    if (formData.password.length < 6) {
+      toast({
+        title: "Erreur",
+        description: "Le mot de passe doit contenir au moins 6 caractères",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.role) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez sélectionner un rôle",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      console.log("Tentative d'inscription avec:", { email: formData.email, role: formData.role });
+      console.log("Tentative d'inscription avec:", { 
+        email: formData.email, 
+        role: formData.role,
+        name: formData.name 
+      });
       
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('id', formData.email)
+        .single();
+
+      if (existingUser) {
+        toast({
+          title: "Erreur",
+          description: "Un compte existe déjà avec cet email. Veuillez vous connecter ou utiliser une autre adresse email.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
           data: {
             name: formData.name,
-            role: formData.role,
           }
         }
       });
 
       if (error) {
         console.error("Erreur lors de l'inscription:", error);
-        let errorMessage = "Une erreur est survenue lors de l'inscription";
         
         if (error.message === "User already registered") {
-          errorMessage = "Un compte existe déjà avec cet email. Veuillez vous connecter ou utiliser une autre adresse email.";
+          toast({
+            title: "Erreur lors de l'inscription",
+            description: "Un compte existe déjà avec cet email. Veuillez vous connecter ou utiliser une autre adresse email.",
+            variant: "destructive",
+          });
+          return;
         }
         
         toast({
           title: "Erreur lors de l'inscription",
-          description: errorMessage,
+          description: error.message,
           variant: "destructive",
         });
         return;
@@ -61,6 +101,8 @@ export const useRegisterForm = (onSuccess: () => void) => {
       if (!data.user) {
         throw new Error("Erreur lors de la création de l'utilisateur");
       }
+
+      console.log("Utilisateur créé avec succès:", data.user);
 
       const { error: updateError } = await supabase
         .from('users')
@@ -72,16 +114,19 @@ export const useRegisterForm = (onSuccess: () => void) => {
         throw updateError;
       }
 
+      console.log("Rôle mis à jour avec succès");
+
       toast({
         title: "Inscription réussie",
         description: "Votre compte a été créé avec succès! Vous pouvez maintenant vous connecter.",
       });
+      
       onSuccess();
     } catch (error: any) {
       console.error("Erreur complète:", error);
       toast({
         title: "Erreur lors de l'inscription",
-        description: "Une erreur est survenue lors de l'inscription",
+        description: "Une erreur est survenue lors de l'inscription. Veuillez réessayer.",
         variant: "destructive",
       });
     } finally {
