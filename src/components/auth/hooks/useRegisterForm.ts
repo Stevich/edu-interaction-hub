@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { RegisterFormData } from "../types/register";
+import { User } from "@supabase/supabase-js";
 
 export const useRegisterForm = (onSuccess: () => void) => {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -54,14 +55,14 @@ export const useRegisterForm = (onSuccess: () => void) => {
       });
 
       // Vérifier si l'email existe déjà dans auth.users
-      const { data: existingUser, error: checkError } = await supabase.auth.admin.listUsers();
+      const { data: { users }, error: checkError } = await supabase.auth.admin.listUsers();
       
       if (checkError) {
         console.error("Erreur lors de la vérification de l'email:", checkError);
         throw checkError;
       }
 
-      const emailExists = existingUser?.users.some(user => user.email === formData.email);
+      const emailExists = users?.some((user: User) => user.email === formData.email);
       
       if (emailExists) {
         toast({
